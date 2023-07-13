@@ -1,0 +1,22 @@
+{
+    "webgl-glsl-editor.format.placeBracesOnSeparateLine": true,
+    "webgl-glsl-editor.format.placeSpaceBeforeCaseColons": true,
+    "webgl-glsl-editor.format.favorFloatingSuffix": true,
+    "webgl-glsl-editor.format.placeSpaceBeforeOpeningBrackets": true,
+    "webgl-glsl-editor.format.placeSpacesAroundBraces": true,
+    "webgl-glsl-editor.format.placeSpaceAfterKeywords": true,
+    "webgl-glsl-editor.format.placeSpacesAroundBinaryOperators": false,
+    "glsl-canvas.textures": {
+
+    },
+    "files.associations": {
+        "*.vfx": "glsl",
+        "*.ffx": "glsl",
+        "*.glsl": "glsl",
+    },
+    "cSpell.words": [
+        "drei",
+        "glslify",
+        "microverse"
+    ]
+}
