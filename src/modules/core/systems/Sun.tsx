@@ -116,6 +116,10 @@ export default function Body({
     return (
         <group ref={backwardRef}>
 
+            <pointLight
+                intensity={1.0}
+                position={location} />
+
             {(hasRings) ? <>
                 {/* Body Rings */}
                 <mesh ref={ringRef}>

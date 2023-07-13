@@ -1,6 +1,6 @@
 {
-  "name": "next-webgame-app",
-  "version": "0.1.0",
+  "name": "space-game-webgpu",
+  "version": "13.07.23",
   "private": true,
   "scripts": {
     "dev": "next dev",

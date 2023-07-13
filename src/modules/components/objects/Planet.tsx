@@ -165,7 +165,7 @@ export default function Planet({
         })() : null;
 
         //run the earth's orbit around the Sun
-        var speed = (objectOrbitRadius / 10 < 2) ? 10 * objectOrbitRadius : 0.1 * objectOrbitRadius;
+        var speed = (objectOrbitRadius / 10 < 2) ? 3 * objectOrbitRadius : objectOrbitRadius / 1.5;
         setOrbitAngle(orbitAngle - (timeDelta * speed));
         var radians = orbitAngle * Math.PI / 180;
 
