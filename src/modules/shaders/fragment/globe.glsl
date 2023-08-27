@@ -1,6 +1,9 @@
 uniform sampler2D globeTexture;
 varying vec2 vUV;
 varying vec3 vNormal;
+uniform number lightMapIntensity;
+uniform number lightMapTransform;
+uniform sampler2D lightMap;
 
 float noise(vec2 co){
     return fract(sin(dot(co, vec2(12.9898, 78.233))) * 43758.5453);

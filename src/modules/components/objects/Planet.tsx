@@ -1,4 +1,4 @@
-import THREE, { AdditiveBlending, BackSide, DoubleSide, Euler, Group, Mesh, Object3D, Texture, TextureLoader, Vector3 } from "three";
+import THREE, { AdditiveBlending, BackSide, DoubleSide, Euler, FrontSide, Group, Mesh, NormalBlending, Object3D, Texture, TextureLoader, UniformsLib, UniformsUtils, Vector3 } from "three";
 import shaders from "mods@shaders";
 import { RootState, useFrame } from "@react-three/fiber";
 import { MutableRefObject, useEffect, useRef, useState } from "react";
@@ -72,6 +72,10 @@ export default function Planet({
         {
             console.error(`Exception Caught while Loading textures: ${name}\n\rError: ${e}`);
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    useEffect(() => {
 
         try {
 
@@ -179,9 +183,6 @@ export default function Planet({
 
     })
 
-    useFrame(() => {
-    })
-
     // Render Geometry Component.
     return (
         <group ref={objectRef}>
@@ -214,11 +215,14 @@ export default function Planet({
                         uniforms={{
                             "cloudsTexture": {
                                 value: cloudsTex,
-                            }
+                            },
+                            ...UniformsLib.lightmap,
+                            ...UniformsLib.lights
                         }}
                         transparent={true}
-                        opacity={0.5}
-                        blending={AdditiveBlending} />
+                        opacity={0.1}
+                        blending={AdditiveBlending}
+                        lights={true} />
                 </mesh>
                 <mesh ref={atmosRef2}>
                     <sphereGeometry
@@ -227,26 +231,36 @@ export default function Planet({
                     <shaderMaterial
                         vertexShader={shaders.Atmosphere.vert}
                         fragmentShader={shaders.Atmosphere.frag}
-                        blending={AdditiveBlending}
-                        side={BackSide} />
+                        blending={NormalBlending}
+                        side={BackSide}/>
                 </mesh>
             </> : null}
 
             {/* Surface & Water */}
             <mesh ref={surfaceRef}>
                 <sphereGeometry
-                    args={[1, 128, 128]}
+                    args={[1, 64, 64]}
                 />
-                <shaderMaterial
+                <meshStandardMaterial
+                    transparent={false}
+                    map={globeTex}
+                    alphaMap={globeTex}
+                    roughness={1}
+                    side={FrontSide}
+                    shadowSide={FrontSide}
+                    clipShadows={true} />
+                {/* <shaderMaterial
                     vertexShader={shaders.Globe.vert}
                     fragmentShader={shaders.Globe.frag}
                     uniforms={{
                         "globeTexture": {
                             value: globeTex,
                         },
+                        ...UniformsLib,
                     }}
                     shadowSide={DoubleSide}
-                    clipShadows={true} />
+                    clipShadows={true}
+                    lights={true} /> */}
             </mesh>
 
         </group>

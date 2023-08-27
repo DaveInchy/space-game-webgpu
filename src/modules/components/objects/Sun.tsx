@@ -1,4 +1,4 @@
-import THREE, { AdditiveBlending, BackSide, DoubleSide, Euler, Group, Matrix4, Mesh, Object3D, Quaternion, Texture, Vector3 } from "three";
+import THREE, { AdditiveBlending, BackSide, DoubleSide, Euler, FrontSide, Group, Matrix4, Mesh, Object3D, Quaternion, Texture, Vector3 } from "three";
 import ambient from "mods@shaders/textures/sun_ambient.jpg";
 import color from "mods@shaders/textures/sun_colormap.jpg";
 import depth from "mods@shaders/textures/sun_displacement.jpg";
@@ -8,7 +8,7 @@ import shaders from "mods@shaders";
 import specular from "mods@shaders/textures/sun_specular.jpg";
 import { RootState, useFrame } from "@react-three/fiber";
 import { MutableRefObject, useEffect, useRef, useState } from "react";
-import { useTextureMap } from "./useTextureMap";
+import { useTextureMap } from "../../core/trash/useTextureMap";
 
 export default function Body({
     hasAtmosphere = true,
@@ -153,7 +153,7 @@ export default function Body({
             {/* Surface & Water */}
             <mesh ref={surfaceRef}>
                 <sphereGeometry
-                    args={[1, 64, 32]}
+                    args={[1, 32, 32]}
                 />
                 <meshPhongMaterial
                     specularMap={T_SPECULAR}
@@ -177,6 +177,7 @@ export default function Body({
                             value: T_COLOR,
                         }
                     }}
+                    side={FrontSide}
                 />
             </mesh>
 

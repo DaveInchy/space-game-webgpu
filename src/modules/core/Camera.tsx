@@ -1,6 +1,7 @@
 import { OrbitControls, OrthographicCamera } from "@react-three/drei";
 import { OrthographicCameraProps } from "@react-three/fiber";
 import { useRef } from "react";
+import { ShaderChunk, ShaderLib } from "three";
 
 export default function CameraController({
   children,
