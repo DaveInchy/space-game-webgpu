@@ -15,3 +15,5 @@ export const wait = async function(time: number) {
         }
     )
 }
+
+export const sleep = wait;
