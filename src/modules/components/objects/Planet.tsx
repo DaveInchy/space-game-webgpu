@@ -7,15 +7,19 @@ export default function Planet({
     name,
     scale = 1,
     location = new Vector3(0, 0, 0),
-    hasAtmosphere = true,
+    hasAtmosphere = false,
+    defaultAtmosphere = true,
     hasRings = false,
+    defaultRings = true,
     refCallback,
 }: {
     name: string,
     location?: Vector3,
     scale?: number,
     hasAtmosphere: boolean,
+    defaultAtmosphere: boolean,
     hasRings: boolean,
+    defaultRings: boolean,
     refCallback: (target: MutableRefObject<any>) => void,
 }): JSX.Element {
 
@@ -61,12 +65,24 @@ export default function Planet({
         try {
 
             var globe = loadTexture(`/textures/${name}_colormap.jpg`);
-            var clouds = loadTexture(`/textures/2k_clouds.jpg`);
-            var rings = loadTexture(`/textures/ring_colormap.png`);
-
             setGlobeTexture(globe);
+
+            if (!defaultAtmosphere && hasAtmosphere) {
+                var clouds = loadTexture(`/textures/${name}_atmosphere_colormap.jpg`);
+            } else {
+                var clouds = loadTexture(`/textures/default_atmosphere_colormap.jpg`);
+            }
             setCloudsTexture(clouds);
+
+            if (!defaultRings && hasRings) {
+                var rings = loadTexture(`/textures/${name}_rings_circle.png`);
+
+            } else {
+                var rings = loadTexture(`/textures/default_rings_circle.png`);
+
+            }
             setRingsTexture(rings);
+
 
         } catch(e)
         {

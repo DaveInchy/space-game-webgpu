@@ -26,7 +26,7 @@ export default function Core({ children, className, style }: { children?: React.
      * > This perhaps themed as an Rick and Morty fandom.
      * * * */
 
-    const distanceMultiplier = 5;
+    const distanceMultiplier = 10;
     const scaleMultiplier = 0.15;
 
     return (<>
@@ -38,22 +38,22 @@ export default function Core({ children, className, style }: { children?: React.
                     <CameraController/>
 
                     <Stars />
-                    {/* <ambientLight
-                        intensity={0.1} /> */}
+                    <ambientLight
+                        intensity={0.1} />
                     <pointLight
                         position={[0,0,0]}
                         intensity={1.0} />
 
                     <Sun forwardRef={target => console.log(`Acquired target ${target.current} =>`, target.current)} hasRings={false} hasAtmosphere={true} location={new Vector3(0, 0, 0)} />
 
-                    <Planet scale={3.88 * scaleMultiplier} refCallback={target => console.log(`Acquired target ${target.current} =>`, target.current)} hasRings={true} hasAtmosphere={true} location={new Vector3(1 + 30.18 * distanceMultiplier / 4, 0, 0)} name={"neptune"} />
-                    <Planet scale={4.01 * scaleMultiplier} refCallback={target => console.log(`Acquired target ${target.current} =>`, target.current)} hasRings={true} hasAtmosphere={false} location={new Vector3(1 + 19.17 * distanceMultiplier / 3, 0, 0)} name={"uranus"} />
-                    <Planet scale={9.45 * scaleMultiplier} refCallback={target => console.log(`Acquired target ${target.current} =>`, target.current)} hasRings={true} hasAtmosphere={true} location={new Vector3(1 + 9.57 * distanceMultiplier / 2.5, 0, 0)} name={"saturn"} />
-                    <Planet scale={11.21 * scaleMultiplier} refCallback={target => console.log(`Acquired target ${target.current} =>`, target.current)} hasRings={true} hasAtmosphere={false} location={new Vector3(1 + 5.20 * distanceMultiplier / 2.5, 0, 0)} name={"jupiter"} />
-                    <Planet scale={0.532 * scaleMultiplier} refCallback={target => console.log(`Acquired target ${target.current} =>`, target.current)} hasRings={false} hasAtmosphere={false} location={new Vector3(1 + 1.52 * distanceMultiplier / 1.5, 0, 0)} name={"mars"} />
-                    <Planet scale={1.0 * scaleMultiplier} refCallback={target => console.log(`Acquired target ${target.current} =>`, target.current)} hasRings={false} hasAtmosphere={true} location={new Vector3(1 + 1 * distanceMultiplier / 1.5, 0, 0)} name={"earth"} />
-                    <Planet scale={0.949 * scaleMultiplier} refCallback={target => console.log(`Acquired target ${target.current} =>`, target.current)} hasRings={false} hasAtmosphere={true} location={new Vector3(1 + 0.723 * distanceMultiplier / 1, 0, 0)} name={"venus"} />
-                    <Planet scale={0.383 * scaleMultiplier} refCallback={target => console.log(`Acquired target ${target.current} =>`, target.current)} hasRings={false} hasAtmosphere={false} location={new Vector3(1 + 0.5 * distanceMultiplier / 1, 0, 0)} name={"mercury"} />
+                    <Planet scale={3.88 * scaleMultiplier} refCallback={target => console.log(`Acquired target ${target.current} =>`, target.current)} hasRings={true} hasAtmosphere={true} location={new Vector3(1 + 30.18 * distanceMultiplier / 4, 0, 0)} name={"neptune"} defaultAtmosphere={true} defaultRings={true} />
+                    <Planet scale={4.01 * scaleMultiplier} refCallback={target => console.log(`Acquired target ${target.current} =>`, target.current)} hasRings={true} hasAtmosphere={false} location={new Vector3(1 + 19.17 * distanceMultiplier / 3, 0, 0)} name={"uranus"} defaultAtmosphere={true} defaultRings={true} />
+                    <Planet scale={9.45 * scaleMultiplier} refCallback={target => console.log(`Acquired target ${target.current} =>`, target.current)} hasRings={true} hasAtmosphere={true} location={new Vector3(1 + 9.57 * distanceMultiplier / 2.5, 0, 0)} name={"saturn"} defaultAtmosphere={true} defaultRings={true} />
+                    <Planet scale={11.21 * scaleMultiplier} refCallback={target => console.log(`Acquired target ${target.current} =>`, target.current)} hasRings={true} hasAtmosphere={false} location={new Vector3(1 + 5.20 * distanceMultiplier / 2.5, 0, 0)} name={"jupiter"} defaultAtmosphere={true} defaultRings={true} />
+                    <Planet scale={0.532 * scaleMultiplier} refCallback={target => console.log(`Acquired target ${target.current} =>`, target.current)} hasRings={false} hasAtmosphere={false} location={new Vector3(1 + 1.52 * distanceMultiplier / 1.5, 0, 0)} name={"mars"} defaultAtmosphere={true} defaultRings={true} />
+                    <Planet scale={1.0 * scaleMultiplier} refCallback={target => console.log(`Acquired target ${target.current} =>`, target.current)} hasRings={false} hasAtmosphere={true} location={new Vector3(1 + 1 * distanceMultiplier / 1.5, 0, 0)} name={"earth"} defaultAtmosphere={false} defaultRings={true} />
+                    <Planet scale={0.949 * scaleMultiplier} refCallback={target => console.log(`Acquired target ${target.current} =>`, target.current)} hasRings={false} hasAtmosphere={true} location={new Vector3(1 + 0.723 * distanceMultiplier / 1, 0, 0)} name={"venus"} defaultAtmosphere={false} defaultRings={true} />
+                    <Planet scale={0.383 * scaleMultiplier} refCallback={target => console.log(`Acquired target ${target.current} =>`, target.current)} hasRings={false} hasAtmosphere={false} location={new Vector3(1 + 0.5 * distanceMultiplier / 1, 0, 0)} name={"mercury"} defaultAtmosphere={true} defaultRings={true} />
 
                 </Suspense>
             </Scene>
