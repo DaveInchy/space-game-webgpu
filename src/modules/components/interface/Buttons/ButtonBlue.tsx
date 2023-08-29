@@ -1,7 +1,7 @@
-import "mods@css/ripple.button.red.css";
+import "mods@css/button.blue.css";
 import React from "react";
 
-export const RippleButton = ({ children, onClick, style, className }: { children: any, onClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void, style?: any, className?: string }) => {
+export const ButtonBlue = ({ children, onClick, style, className }: { children: any, onClick?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void, style?: any, className?: string }) => {
     const [coords, setCoords] = React.useState({ x: -1, y: -1 });
     const [isRippling, setIsRippling] = React.useState(false);
 
@@ -19,9 +19,9 @@ export const RippleButton = ({ children, onClick, style, className }: { children
     return (
         <button
             style={style ? style : {
-                content: '<span class="text-red-800"',
+                content: '',
             }}
-            className={`${className?.toString()} ripple-button`}
+            className={`${className?.toString()} btn-blue relative flex flex-row justify-center items-center p-2 px-4 text-2xl text-white rounded-sm font-bold ease-linear transform-gpu transition-all hover:-translate-y-2`}
             onClick={e => {
                 const target: any = e.target;
                 const rect = target.getBoundingClientRect();

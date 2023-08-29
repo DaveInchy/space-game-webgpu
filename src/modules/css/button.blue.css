@@ -1,21 +1,21 @@
-.ripple-button {
+.btn-blue {
   border-radius: 4px;
   border: none;
   margin: 8px;
   padding: 14px 24px;
-  background: #1976d2;
   color: #fff;
+  @apply bg-blue-600;
   overflow: hidden;
   position: relative;
   cursor: pointer;
 }
 
-.ripple-button > .ripple {
+.btn-blue > .ripple {
   width: 20px;
   height: 20px;
   position: absolute;
-  background: #63a4ff;
   display: block;
+  @apply bg-blue-700;
   content: "";
   border-radius: 9999px;
   opacity: 1;
@@ -37,7 +37,7 @@
   }
 }
 
-.ripple-button > .content {
+.btn-blue > .content {
   position: relative;
   z-index: 2;
 }

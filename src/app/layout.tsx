@@ -14,7 +14,7 @@ export default function RootLayout({
         <title>ThreeJS Studio</title>
       </head>
       <body>
-        <div id="app" style={{...font.style, ...{ backgroundImage: 'url("/textures/background/lowres_stars.jpg")'}}} className={"bg-black"}>
+        <div id="app" style={{...font.style, }} className={"bg-stone-900"}>
           {children}
         </div>
       </body>

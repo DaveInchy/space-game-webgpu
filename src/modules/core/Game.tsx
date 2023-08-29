@@ -1,12 +1,17 @@
 import "mods@css/main.css";
 import "mods@css/tw.css";
-import Icons from "mods@utils/jsx/VectorIcons";
 import Camera from "mods@core/Camera";
+import Icons from "mods@utils/jsx/VectorIcons";
 import Image from "next/image";
 import Lighting from "mods@core/Lighting";
 import Scene from "mods@core/Scene";
 import { OrbitControls, Stars, useCubeTexture } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
+import { Button } from "mods@components/interface/Buttons/Button";
+import { ButtonBlue } from "mods@components/interface/Buttons/ButtonBlue";
+import { ButtonGreen } from "mods@components/interface/Buttons/ButtonGreen";
+import { ButtonRed } from "mods@components/interface/Buttons/ButtonRed";
+import { ButtonYellow } from "mods@components/interface/Buttons/ButtonYellow";
 import { RippleButton } from "mods@components/interface/RippleButton";
 import { metadata, roboto, roboto_mono } from "mods@core/config/globals";
 import { Roboto_Mono } from "next/font/google";
@@ -27,23 +32,42 @@ export default function GameController({ children, className, style }: { childre
         ["splash", () => (<>
             <div className={"w-full min-h-[100vh] flex flex-col justify-center items-center"}>
                 <div className={"list-none text-center"}>
-                    <Image alt={"splashvector"} src={"/WhiteSplash.svg"} width={256} height={256} className={"h-auto mx-auto my-0 mb-5"} />
-                    <h1 className={"text-4xl uppercase"} style={roboto.style}>{title}</h1>
-                    <h3>Author: <span className={"text-red-800"}><a href={"github.com/daveinchy"}>Space Dave</a></span></h3>
+                    <Image alt={"splashvector"} src={"/ThreeJS.svg"} width={320} height={320} className={"h-auto mx-auto my-0 mb-5"} />
+                    <h1 className={"text-4xl font-black"} style={roboto.style}>{title}</h1>
+                    <h3>Author: <span className={"text-red-800"}><a href={"https://github.com/daveinchy"}>Space Dave</a></span></h3>
                 </div>
                 <div className={"mt-4 text-center flex flex-row"}>
-                    <RippleButton style={roboto.style} className={"relative flex flex-row justify-center items-center p-2 px-4 text-2xl text-white bg-red-700 rounded-sm font-bold uppercase mt-4 mx-2 border-4 border-red-800 hover:bg-red-900"} onClick={() => setScene(getSceneJSX("menu"))}><span className={"float-left"}>Play</span> <Icons.Arrows.ChevRight /></RippleButton>
-                    <RippleButton style={roboto.style} className={"relative flex flex-row justify-center items-center p-2 px-4 text-2xl text-white bg-red-700 rounded-sm font-bold uppercase mt-4 mx-2 border-4 border-red-800 hover:bg-red-900"} onClick={() => setScene(getSceneJSX("menu"))}><span className={"float-left"}>Quit</span> <Icons.Actions.Cross /></RippleButton>
+                    <ButtonBlue style={roboto_mono.style} onClick={() => setScene(getSceneJSX("buy"))}><span className={"float-left mr-2"}>Buy</span> <Icons.Webshop.Cart iconSize={"28"} /></ButtonBlue>
+                    <Button style={roboto_mono.style} onClick={() => setScene(getSceneJSX("store"))}><span className={"float-left mr-2"}>Store</span> <Icons.Webshop.Bag iconSize={"28"} /></Button>
+                    <Button style={roboto_mono.style} onClick={() => setScene(getSceneJSX("menu_asset"))}><span className={"float-left mr-2 "}>Studio</span> <Icons.Actions.Edit iconSize={"28"} /></Button>
                 </div>
             </div>
         </>)],
-        ["menu", () => (<>
+        ["menu_asset", () => (<>
             <div className={"w-full min-h-[100vh] flex flex-col justify-center items-center"}>
                 <div className={"list-none text-center"}>
-                    <h1 className={"text-4xl uppercase"} style={roboto.style}>Game Menu</h1>
+                    <h1 className={"text-4xl font-black"} style={roboto.style}>Menu</h1>
                 </div>
-                <div className={"mt-4 text-center"}>
-                    <RippleButton style={roboto.style} className={"relative flex flex-row justify-center items-center p-2 px-4 text-2xl text-white bg-red-700 rounded-sm font-bold uppercase mt-4 mx-2 border-4 border-red-800 hover:bg-red-900"} onClick={() => setScene(getSceneJSX("splash"))}><span>Back</span> <Icons.Cancel /></RippleButton>
+                <div className={"mt-4 text-center flex flex-col justify-center items-evenly"}>
+                    <ButtonBlue style={roboto_mono.style} onClick={() => setScene(getSceneJSX("menu_studio"))}><span className={"float-left mr-2 "}>Studio</span> <Icons.Arrows.ChevRight iconSize={"28"} /></ButtonBlue>
+                    <Button style={roboto_mono.style} onClick={() => setScene(getSceneJSX("editor_object"))}><span className={"float-left mr-2 "}>Models</span> <Icons.Arrows.ChevRight iconSize={"28"} /></Button>
+                    <Button style={roboto_mono.style} onClick={() => setScene(getSceneJSX("editor_scene"))}><span className={"float-left mr-2 "}>Scenes</span> <Icons.Arrows.ChevRight iconSize={"28"} /></Button>
+                    <Button style={roboto_mono.style} onClick={() => setScene(getSceneJSX("editor_materials"))}><span className={"float-left mr-2 "}>Materials</span> <Icons.Arrows.ChevRight iconSize={"28"} /></Button>
+                    <Button style={roboto_mono.style} onClick={() => setScene(getSceneJSX("editor_materials"))}><span className={"float-left mr-2 "}>Textures</span> <Icons.Arrows.ChevRight iconSize={"28"} /></Button>
+                    <Button style={roboto_mono.style} onClick={() => setScene(getSceneJSX("editor_materials"))}><span className={"float-left mr-2 "}>Shaders</span> <Icons.Arrows.ChevRight iconSize={"28"} /></Button>
+                    <ButtonRed style={roboto_mono.style} onClick={() => setScene(getSceneJSX("splash"))}><span className={"float-left mr-2 -ml-4 uppercase"}><Icons.Arrows.ChevLeft iconSize={"28"} /></span><span className={"float-left uppercase"}> Back</span></ButtonRed>
+                </div>
+            </div>
+        </>)],
+        ["menu_studio", () => (<>
+            <div className={"w-full min-h-[100vh] flex flex-col justify-center items-center"}>
+                <div className={"list-none text-center"}>
+                    <h1 className={"text-4xl font-black"} style={roboto.style}>Menu</h1>
+                </div>
+                <div className={"mt-4 text-center flex flex-col justify-center items-evenly"}>
+                    <Button style={roboto_mono.style} onClick={() => setScene(getSceneJSX("editor_premium"))}><span className={"float-left mr-2 "}>New Project</span> <Icons.Arrows.ChevRight iconSize={"28"} /></Button>
+                    <Button style={roboto_mono.style} onClick={() => setScene(getSceneJSX("editor_premium"))}><span className={"float-left mr-2 "}>Edit Project</span> <Icons.Arrows.ChevRight iconSize={"28"} /></Button>
+                    <ButtonRed style={roboto_mono.style} onClick={() => setScene(getSceneJSX("splash"))}><span className={"float-left mr-2 uppercase"}>Close</span> <Icons.Actions.Cross iconSize={"28"} /></ButtonRed>
                 </div>
             </div>
         </>)],
