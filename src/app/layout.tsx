@@ -1,6 +1,6 @@
 import "mods@css/main.css";
 import BackgroundImage from "/textures/background/lowres_stars.jpg";
-import { roboto } from "mods@core/config/globals";
+import { metadata as metadat, roboto } from "mods@core/config/globals";
 
 export default function RootLayout({
   children,
@@ -8,6 +8,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   const font = roboto;
+  const metadata = metadat;
   return (
     <html lang="en">
       <head>
