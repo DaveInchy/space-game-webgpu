@@ -1,64 +1,93 @@
-"use client";
-import CameraController from "./Camera";
-import Ceres from "mods@core/trash/Ceres";
-import Earth from "mods@core/trash/Earth";
-import Jupiter from "mods@core/trash/Jupiter";
-import Mars from "mods@core/trash/Mars";
-import Mercury from "mods@core/trash/Mercury";
-import Moon from "mods@core/trash/Moon";
-import Neptune from "mods@core/trash/Neptune";
-import Planet from "mods@components/objects/Planet";
-import Saturn from "mods@core/trash/Saturn";
-import Scene from "mods@components/Scene";
-import StarTexture from "/public/textures/background/lowres_stars.jpg";
-import Sun from "mods@components/objects/Sun";
-import Uranus from "mods@core/trash/Uranus";
-import Venus from "mods@core/trash/Venus";
+import "mods@css/main.css";
+import "mods@css/tw.css";
+import Icons from "mods@utils/jsx/VectorIcons";
+import Camera from "mods@core/Camera";
+import Image from "next/image";
+import Lighting from "mods@core/Lighting";
+import Scene from "mods@core/Scene";
 import { OrbitControls, Stars, useCubeTexture } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
+import { RippleButton } from "mods@components/interface/RippleButton";
+import { metadata, roboto, roboto_mono } from "mods@core/config/globals";
+import { Roboto_Mono } from "next/font/google";
 import { MutableRefObject, Ref, Suspense, createRef, useEffect, useRef, useState } from "react";
 import { BufferGeometry, Material, Mesh, NormalBufferAttributes, Vector2, Vector3 } from "three";
 
-export default function Core({ children, className, style }: { children?: React.ReactNode, className?: string | string[], style?: any, }) {
+export default function GameController({ children, className, style }: { children?: React.ReactNode, className?: string | string[], style?: any, }) {
 
+    "use client";
     /* A Game where you can buy universe in a box to power your other projects in a box
      * https://rickandmorty.fandom.com/wiki/Microverse_Battery
      * > This perhaps themed as an Rick and Morty fandom.
      * * * */
 
-    const distanceMultiplier = 10;
-    const scaleMultiplier = 0.15;
+    const { title, description } = metadata;
+
+    const SceneJSX: Array<[String, () => JSX.Element]> = [
+        ["splash", () => (<>
+            <div className={"w-full min-h-[100vh] flex flex-col justify-center items-center"}>
+                <div className={"list-none text-center"}>
+                    <Image alt={"splashvector"} src={"/WhiteSplash.svg"} width={256} height={256} className={"h-auto mx-auto my-0 mb-5"} />
+                    <h1 className={"text-4xl uppercase"} style={roboto.style}>{title}</h1>
+                    <h3>Author: <span className={"text-red-800"}><a href={"github.com/daveinchy"}>Space Dave</a></span></h3>
+                </div>
+                <div className={"mt-4 text-center flex flex-row"}>
+                    <RippleButton style={roboto.style} className={"relative flex flex-row justify-center items-center p-2 px-4 text-2xl text-white bg-red-700 rounded-sm font-bold uppercase mt-4 mx-2 border-4 border-red-800 hover:bg-red-900"} onClick={() => setScene(getSceneJSX("menu"))}><span className={"float-left"}>Play</span> <Icons.Arrows.ChevRight /></RippleButton>
+                    <RippleButton style={roboto.style} className={"relative flex flex-row justify-center items-center p-2 px-4 text-2xl text-white bg-red-700 rounded-sm font-bold uppercase mt-4 mx-2 border-4 border-red-800 hover:bg-red-900"} onClick={() => setScene(getSceneJSX("menu"))}><span className={"float-left"}>Quit</span> <Icons.Actions.Cross /></RippleButton>
+                </div>
+            </div>
+        </>)],
+        ["menu", () => (<>
+            <div className={"w-full min-h-[100vh] flex flex-col justify-center items-center"}>
+                <div className={"list-none text-center"}>
+                    <h1 className={"text-4xl uppercase"} style={roboto.style}>Game Menu</h1>
+                </div>
+                <div className={"mt-4 text-center"}>
+                    <RippleButton style={roboto.style} className={"relative flex flex-row justify-center items-center p-2 px-4 text-2xl text-white bg-red-700 rounded-sm font-bold uppercase mt-4 mx-2 border-4 border-red-800 hover:bg-red-900"} onClick={() => setScene(getSceneJSX("splash"))}><span>Back</span> <Icons.Cancel /></RippleButton>
+                </div>
+            </div>
+        </>)],
+    ];
+
+    const getSceneJSX = (key: string) => {
+        let newScene: JSX.Element | undefined = undefined;
+
+        SceneJSX.map((v, i, a) => {
+            if (v[0] === key) {
+                newScene = v[1]();
+            }
+            return newScene;
+        });
+
+        if (newScene === undefined) {
+            throw new Error(`Couldn't find scene with '${key}' as key.`);
+        }
+        return newScene as JSX.Element;
+    };
+
+    const [scene, setScene] = useState(undefined as unknown as JSX.Element);
+
+    useEffect(() => {
+        (async () => {
+            setScene(getSceneJSX("splash"));
+        })();
+    }, []);
 
     return (<>
-        <main style={style ? style : null} className={`${className?.toString()}` + " " + ""}>
+        <div style={style ? style : null} className={`${className?.toString()}` + " " + ""}>
+            <div id="ui-overlay" className="min-w-full min-h-[100vh] z-0 p-0 m-0 overflow-hidden">
+                {/* <Scene>
+                    <Suspense>
 
-            <Scene>
-                <Suspense fallback={<>Loading</>}>
+                        <Camera />
+                        <Lighting />
+                        <SunSystem scaleMultiplier={1} distanceMultiplier={60} />
 
-                    <CameraController/>
+                    </Suspense>
+                </Scene> */}
 
-                    <Stars />
-                    <ambientLight
-                        intensity={0.1} />
-                    <pointLight
-                        position={[0,0,0]}
-                        intensity={1.0} />
-
-                    <Sun forwardRef={target => console.log(`Acquired target ${target.current} =>`, target.current)} hasRings={false} hasAtmosphere={true} location={new Vector3(0, 0, 0)} />
-
-                    <Planet scale={3.88 * scaleMultiplier} refCallback={target => console.log(`Acquired target ${target.current} =>`, target.current)} hasRings={true} hasAtmosphere={true} location={new Vector3(1 + 30.18 * distanceMultiplier / 4, 0, 0)} name={"neptune"} defaultAtmosphere={true} defaultRings={true} />
-                    <Planet scale={4.01 * scaleMultiplier} refCallback={target => console.log(`Acquired target ${target.current} =>`, target.current)} hasRings={true} hasAtmosphere={false} location={new Vector3(1 + 19.17 * distanceMultiplier / 3, 0, 0)} name={"uranus"} defaultAtmosphere={true} defaultRings={true} />
-                    <Planet scale={9.45 * scaleMultiplier} refCallback={target => console.log(`Acquired target ${target.current} =>`, target.current)} hasRings={true} hasAtmosphere={true} location={new Vector3(1 + 9.57 * distanceMultiplier / 2.5, 0, 0)} name={"saturn"} defaultAtmosphere={true} defaultRings={true} />
-                    <Planet scale={11.21 * scaleMultiplier} refCallback={target => console.log(`Acquired target ${target.current} =>`, target.current)} hasRings={true} hasAtmosphere={false} location={new Vector3(1 + 5.20 * distanceMultiplier / 2.5, 0, 0)} name={"jupiter"} defaultAtmosphere={true} defaultRings={true} />
-                    <Planet scale={0.532 * scaleMultiplier} refCallback={target => console.log(`Acquired target ${target.current} =>`, target.current)} hasRings={false} hasAtmosphere={false} location={new Vector3(1 + 1.52 * distanceMultiplier / 1.5, 0, 0)} name={"mars"} defaultAtmosphere={true} defaultRings={true} />
-                    <Planet scale={1.0 * scaleMultiplier} refCallback={target => console.log(`Acquired target ${target.current} =>`, target.current)} hasRings={false} hasAtmosphere={true} location={new Vector3(1 + 1 * distanceMultiplier / 1.5, 0, 0)} name={"earth"} defaultAtmosphere={false} defaultRings={true} />
-                    <Planet scale={0.949 * scaleMultiplier} refCallback={target => console.log(`Acquired target ${target.current} =>`, target.current)} hasRings={false} hasAtmosphere={true} location={new Vector3(1 + 0.723 * distanceMultiplier / 1, 0, 0)} name={"venus"} defaultAtmosphere={false} defaultRings={true} />
-                    <Planet scale={0.383 * scaleMultiplier} refCallback={target => console.log(`Acquired target ${target.current} =>`, target.current)} hasRings={false} hasAtmosphere={false} location={new Vector3(1 + 0.5 * distanceMultiplier / 1, 0, 0)} name={"mercury"} defaultAtmosphere={true} defaultRings={true} />
-
-                </Suspense>
-            </Scene>
-
-            <span className={"fixed bottom-0 mx-auto w-auto"}><h3>Author: github.com/daveinchy</h3></span>
-        </main>
+                {scene}
+            </div>
+        </div>
     </>) as JSX.Element;
 }

@@ -1,13 +1,13 @@
-import atmosFrag from "./glsl/fragment/atmosphere.glsl";
-import atmosVert from "./glsl/vertex/atmosphere.glsl";
-import cloudsFrag from "./glsl/fragment/clouds.glsl";
-import cloudsVert from "./glsl/vertex/clouds.glsl";
-import globeFrag from "./glsl/fragment/globe.glsl";
-import globeVert from "./glsl/vertex/globe.glsl";
-import noiseFrag from "./glsl/noise.ffx";
-import normalVert from "./glsl/normalized.vfx";
-import sunFrag from "./glsl/fragment/sun.glsl";
-import sunVert from "./glsl/vertex/sun.glsl";
+import atmosFrag from "./bin/fragment/atmosphere.bin";
+import atmosVert from "./bin/vertex/atmosphere.bin";
+import cloudsFrag from "./bin/fragment/clouds.bin";
+import cloudsVert from "./bin/vertex/clouds.bin";
+import globeFrag from "./bin/fragment/globe.bin";
+import globeVert from "./bin/vertex/globe.bin";
+import noiseFrag from "./bin/noise.ffx";
+import normalVert from "./bin/normalized.vfx";
+import sunFrag from "./bin/fragment/sun.bin";
+import sunVert from "./bin/vertex/sun.bin";
 
 const ShaderLib = ({
     Vertex: {

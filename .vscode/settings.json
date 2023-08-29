@@ -16,8 +16,12 @@
     },
     "cSpell.words": [
         "drei",
+        "earthscale",
         "glslify",
-        "microverse"
+        "microverse",
+        "milkyway",
+        "solarsystem"
     ],
-    "typescript.tsdk": "node_modules\\typescript\\lib"
+    "typescript.tsdk": "node_modules\\typescript\\lib",
+    "cmake.configureOnOpen": true
 }

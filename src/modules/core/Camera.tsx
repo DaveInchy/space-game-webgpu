@@ -1,9 +1,9 @@
-import { OrbitControls, OrthographicCamera } from "@react-three/drei";
+import { FlyControls, OrbitControls, OrthographicCamera } from "@react-three/drei";
 import { OrthographicCameraProps } from "@react-three/fiber";
 import { useRef } from "react";
 import { ShaderChunk, ShaderLib } from "three";
 
-export default function CameraController({
+export default function Camera({
   children,
   props,
 }: {
@@ -11,11 +11,13 @@ export default function CameraController({
   props?: any,
 }): JSX.Element {
 
-  const cameraRef = useRef(undefined as unknown as any)
+  const cameraRef = useRef(undefined as unknown as any);
+  const currentControls = useRef(undefined as unknown as any);
 
   return (<>
       <orthographicCamera ref={cameraRef}
-        args={[0, window.innerWidth, 0, window.innerHeight, 0, 1000]} />
+        args={[0, window.innerWidth / 100 * 80, 0, window.innerHeight / 100 * 80, 0, 10000]} />
+
       {/* camera controller */}
       <OrbitControls
           camera={cameraRef.current}
@@ -26,5 +28,9 @@ export default function CameraController({
           zoomSpeed={5}
           rotateSpeed={1.5}
           panSpeed={5} />
+      {/* <FlyControls ref={currentControls}
+          args={cameraRef.current}
+          movementSpeed={1}
+          rollSpeed={1} /> */}
   </>)
 }

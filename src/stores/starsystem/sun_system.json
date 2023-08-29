@@ -1,0 +1,24 @@
+[
+    {
+        "parent": "milkyway",
+        "star": "sun",
+        "planets": [
+            {
+                "name": "earth",
+                "meta": {
+                    "name": "Terra",
+                    "avgGravity": 10,
+                    "avgTemp": 28,
+                    "sizeKm": 1024,
+                    "distanceKm": 1024
+                },
+                "distanceTerraScale": 1,
+                "sizeTerraScale": 1,
+                "hasAtmosphere": true,
+                "hasDefaultAtmosphere": false,
+                "hasRings": false,
+                "hasDefaultRings": false
+            }
+        ]
+    }
+]
