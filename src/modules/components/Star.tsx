@@ -8,7 +8,7 @@ import rings from "mods@shaders/textures/ring_colormap.png";
 import shaders from "mods@shaders";
 import specular from "mods@shaders/textures/sun_specular.jpg";
 import { RootState, useFrame } from "@react-three/fiber";
-import { useTextureMap } from "mods@core/trash/useTextureMap";
+import { useTextureMap } from "mods@core/prefabs/useTextureMap";
 import { MutableRefObject, useEffect, useRef, useState } from "react";
 
 export default function Body({

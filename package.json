@@ -20,6 +20,7 @@
     "eslint": "8.43.0",
     "eslint-config-next": "13.4.7",
     "glslify-loader": "^2.0.0",
+    "leva": "^0.9.35",
     "next": "13.4.9",
     "postcss": "8.4.24",
     "raw-loader": "^4.0.2",

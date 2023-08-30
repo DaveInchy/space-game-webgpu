@@ -5,8 +5,14 @@ import Icons from "mods@utils/jsx/VectorIcons";
 import Image from "next/image";
 import Lighting from "mods@core/Lighting";
 import Scene from "mods@core/Scene";
-import { OrbitControls, Stars, useCubeTexture } from "@react-three/drei";
+import THREE, { DoubleSide, Material, Mesh, MeshPhongMaterial, MeshStandardMaterial, MeshToonMaterial, NormalBufferAttributes, Vector2, Vector3 } from "three";
+import TestEnvironment from "mods@components/scenes/TestEnvironment";
+import Window3D from "mods@components/scenes/Window3D";
+import { CubeCamera, Environment, EnvironmentMap, FirstPersonControls, FlyControls, Octahedron, OrbitControls, PerspectiveCamera, Stars, useCubeTexture } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
+import { extend } from "@react-three/fiber";
+import { MeshCollider, RapierRigidBody, RigidBody } from "@react-three/rapier";
+import { RigidBodyContext } from "@react-three/rapier/dist/declarations/src/components/RigidBody";
 import { Button } from "mods@components/interface/Buttons/Button";
 import { ButtonBlue } from "mods@components/interface/Buttons/ButtonBlue";
 import { ButtonGreen } from "mods@components/interface/Buttons/ButtonGreen";
@@ -14,9 +20,11 @@ import { ButtonRed } from "mods@components/interface/Buttons/ButtonRed";
 import { ButtonYellow } from "mods@components/interface/Buttons/ButtonYellow";
 import { RippleButton } from "mods@components/interface/RippleButton";
 import { metadata, roboto, roboto_mono } from "mods@core/config/globals";
+import { useGameStore } from "mods@utils/states";
 import { Roboto_Mono } from "next/font/google";
 import { MutableRefObject, Ref, Suspense, createRef, useEffect, useRef, useState } from "react";
-import { BufferGeometry, Material, Mesh, NormalBufferAttributes, Vector2, Vector3 } from "three";
+
+/* eslint-disable react-hooks/exhaustive-deps */
 
 export default function GameController({ children, className, style }: { children?: React.ReactNode, className?: string | string[], style?: any, }) {
 
@@ -25,6 +33,8 @@ export default function GameController({ children, className, style }: { childre
      * https://rickandmorty.fandom.com/wiki/Microverse_Battery
      * > This perhaps themed as an Rick and Morty fandom.
      * * * */
+
+    extend({ MeshToonMaterial });
 
     const { title, description } = metadata;
 
@@ -37,48 +47,36 @@ export default function GameController({ children, className, style }: { childre
                     <h3>Author: <span className={"text-red-800"}><a href={"https://github.com/daveinchy"}>Space Dave</a></span></h3>
                 </div>
                 <div className={"mt-4 text-center flex flex-row"}>
-                    <ButtonBlue style={roboto_mono.style} onClick={() => setScene(getSceneJSX("buy"))}><span className={"float-left mr-2"}>Buy</span> <Icons.Webshop.Cart iconSize={"28"} /></ButtonBlue>
-                    <Button style={roboto_mono.style} onClick={() => setScene(getSceneJSX("store"))}><span className={"float-left mr-2"}>Store</span> <Icons.Webshop.Bag iconSize={"28"} /></Button>
-                    <Button style={roboto_mono.style} onClick={() => setScene(getSceneJSX("menu_asset"))}><span className={"float-left mr-2 "}>Studio</span> <Icons.Actions.Edit iconSize={"28"} /></Button>
+                    <ButtonBlue style={roboto_mono.style} onClick={() => setScene(getScene("test_env"))} useIcon={<Icons.Webshop.Cart iconSize={"28"} />}>Buy</ButtonBlue>
+                    <Button style={roboto_mono.style} onClick={() => setScene(getScene("test_env"))} useIcon={<Icons.Webshop.Bag iconSize={"28"} />}>Store</Button>
+                    <Button style={roboto_mono.style} onClick={() => setScene(getScene("menu_assets"))} useIcon={<Icons.Actions.Edit iconSize={"28"} />}>Studio</Button>
                 </div>
             </div>
         </>)],
-        ["menu_asset", () => (<>
+        ["menu_assets", () => (<>
             <div className={"w-full min-h-[100vh] flex flex-col justify-center items-center"}>
                 <div className={"list-none text-center"}>
                     <h1 className={"text-4xl font-black"} style={roboto.style}>Menu</h1>
                 </div>
                 <div className={"mt-4 text-center flex flex-col justify-center items-evenly"}>
-                    <ButtonBlue style={roboto_mono.style} onClick={() => setScene(getSceneJSX("menu_studio"))}><span className={"float-left mr-2 "}>Studio</span> <Icons.Arrows.ChevRight iconSize={"28"} /></ButtonBlue>
-                    <Button style={roboto_mono.style} onClick={() => setScene(getSceneJSX("editor_object"))}><span className={"float-left mr-2 "}>Models</span> <Icons.Arrows.ChevRight iconSize={"28"} /></Button>
-                    <Button style={roboto_mono.style} onClick={() => setScene(getSceneJSX("editor_scene"))}><span className={"float-left mr-2 "}>Scenes</span> <Icons.Arrows.ChevRight iconSize={"28"} /></Button>
-                    <Button style={roboto_mono.style} onClick={() => setScene(getSceneJSX("editor_materials"))}><span className={"float-left mr-2 "}>Materials</span> <Icons.Arrows.ChevRight iconSize={"28"} /></Button>
-                    <Button style={roboto_mono.style} onClick={() => setScene(getSceneJSX("editor_materials"))}><span className={"float-left mr-2 "}>Textures</span> <Icons.Arrows.ChevRight iconSize={"28"} /></Button>
-                    <Button style={roboto_mono.style} onClick={() => setScene(getSceneJSX("editor_materials"))}><span className={"float-left mr-2 "}>Shaders</span> <Icons.Arrows.ChevRight iconSize={"28"} /></Button>
-                    <ButtonRed style={roboto_mono.style} onClick={() => setScene(getSceneJSX("splash"))}><span className={"float-left mr-2 -ml-4 uppercase"}><Icons.Arrows.ChevLeft iconSize={"28"} /></span><span className={"float-left uppercase"}> Back</span></ButtonRed>
+                    <ButtonBlue style={roboto_mono.style} onClick={() => setScene(getScene("test_env"))} useIcon={<Icons.Arrows.ChevRight iconSize={"28"} />}>Studio</ButtonBlue>
+                    <Button style={roboto_mono.style} onClick={() => setScene(getScene("editor_object"))} useIcon={<Icons.Arrows.ChevRight iconSize={"28"} />}>Models</Button>
+                    <Button style={roboto_mono.style} onClick={() => setScene(getScene("editor_object"))} useIcon={<Icons.Arrows.ChevRight iconSize={"28"} />}>Scenes</Button>
+                    <Button style={roboto_mono.style} onClick={() => setScene(getScene("editor_object"))} useIcon={<Icons.Arrows.ChevRight iconSize={"28"} />}>Materials</Button>
+                    <Button style={roboto_mono.style} onClick={() => setScene(getScene("editor_object"))} useIcon={<Icons.Arrows.ChevRight iconSize={"28"} />}>Textures</Button>
+                    <Button style={roboto_mono.style} onClick={() => setScene(getScene("editor_object"))} useIcon={<Icons.Arrows.ChevRight iconSize={"28"} />}>Shaders</Button>
                 </div>
             </div>
         </>)],
-        ["menu_studio", () => (<>
-            <div className={"w-full min-h-[100vh] flex flex-col justify-center items-center"}>
-                <div className={"list-none text-center"}>
-                    <h1 className={"text-4xl font-black"} style={roboto.style}>Menu</h1>
-                </div>
-                <div className={"mt-4 text-center flex flex-col justify-center items-evenly"}>
-                    <Button style={roboto_mono.style} onClick={() => setScene(getSceneJSX("editor_premium"))}><span className={"float-left mr-2 "}>New Project</span> <Icons.Arrows.ChevRight iconSize={"28"} /></Button>
-                    <Button style={roboto_mono.style} onClick={() => setScene(getSceneJSX("editor_premium"))}><span className={"float-left mr-2 "}>Edit Project</span> <Icons.Arrows.ChevRight iconSize={"28"} /></Button>
-                    <ButtonRed style={roboto_mono.style} onClick={() => setScene(getSceneJSX("splash"))}><span className={"float-left mr-2 uppercase"}>Close</span> <Icons.Actions.Cross iconSize={"28"} /></ButtonRed>
-                </div>
-            </div>
-        </>)],
+        ["test_env", () => (<TestEnvironment />)],
     ];
 
-    const getSceneJSX = (key: string) => {
-        let newScene: JSX.Element | undefined = undefined;
+    const getScene = (key: string) => {
+        let newScene: [String, () => JSX.Element] | undefined = undefined;
 
         SceneJSX.map((v, i, a) => {
             if (v[0] === key) {
-                newScene = v[1]();
+                newScene = v;
             }
             return newScene;
         });
@@ -86,32 +84,34 @@ export default function GameController({ children, className, style }: { childre
         if (newScene === undefined) {
             throw new Error(`Couldn't find scene with '${key}' as key.`);
         }
-        return newScene as JSX.Element;
+
+        return newScene as [String, () => JSX.Element];
     };
 
-    const [scene, setScene] = useState(undefined as unknown as JSX.Element);
+    const [scene, setScene] = useState(undefined as unknown as [String, () => JSX.Element]);
+
+    const gameState = useGameStore((state:any) => state.GameState);
+    const writeGameState = useGameStore((state: any) => state.writeGameState);
+    const resetGameState = useGameStore((state: any) => state.resetGameState);
 
     useEffect(() => {
         (async () => {
-            setScene(getSceneJSX("splash"));
+            setScene(getScene("splash"));
         })();
     }, []);
 
+    useEffect(() => {
+        (async () => {
+            if (scene !== undefined) {
+                writeGameState({ currentScene: scene[0] });
+                console.log(`[state]`, gameState);
+            }
+        })();
+    }, [scene]);
+
     return (<>
-        <div style={style ? style : null} className={`${className?.toString()}` + " " + ""}>
-            <div id="ui-overlay" className="min-w-full min-h-[100vh] z-0 p-0 m-0 overflow-hidden">
-                {/* <Scene>
-                    <Suspense>
-
-                        <Camera />
-                        <Lighting />
-                        <SunSystem scaleMultiplier={1} distanceMultiplier={60} />
-
-                    </Suspense>
-                </Scene> */}
-
-                {scene}
-            </div>
+        <div style={style ? style : null} className={`${className?.toString()}` + " " + "min-w-[100vw] min-h-[100vh] p-0 m-0 relative overflow-hidden"}>
+            {scene ? scene[1]() : null}
         </div>
     </>) as JSX.Element;
 }

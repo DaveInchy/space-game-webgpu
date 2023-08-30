@@ -8,7 +8,7 @@ import shaders from "mods@shaders";
 import specular from "mods@shaders/textures/sun_specular.jpg";
 import { RootState, useFrame } from "@react-three/fiber";
 import { MutableRefObject, useEffect, useRef, useState } from "react";
-import { useTextureMap } from "../../core/trash/useTextureMap";
+import { useTextureMap } from "../../core/prefabs/useTextureMap";
 
 export default function Body({
     hasAtmosphere = true,

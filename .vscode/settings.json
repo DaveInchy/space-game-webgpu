@@ -20,7 +20,8 @@
         "glslify",
         "microverse",
         "milkyway",
-        "solarsystem"
+        "solarsystem",
+        "Toon"
     ],
     "typescript.tsdk": "node_modules\\typescript\\lib",
     "cmake.configureOnOpen": true

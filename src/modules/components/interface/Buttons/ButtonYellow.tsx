@@ -1,7 +1,7 @@
 import "mods@css/button.yellow.css";
 import React from "react";
 
-export const ButtonYellow = ({ children, onClick, style, className }: { children: any, onClick?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void, style?: any, className?: string }) => {
+export const ButtonYellow = ({ children, useIcon, onClick, style, className }: { children: any, useIcon?: any | JSX.Element, onClick?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void, style?: any, className?: string }) => {
     const [coords, setCoords] = React.useState({ x: -1, y: -1 });
     const [isRippling, setIsRippling] = React.useState(false);
 
@@ -21,7 +21,7 @@ export const ButtonYellow = ({ children, onClick, style, className }: { children
             style={style ? style : {
                 content: '',
             }}
-            className={`${className?.toString()} btn-yellow relative flex flex-row justify-center items-center p-2 px-4 text-2xl text-white rounded-sm font-bold ease-linear transform-gpu transition-all hover:-translate-y-2`}
+            className={`${className?.toString()} btn-yellow relative p-3 px-1 text-2xl text-white rounded-sm font-bold ease-linear transform-gpu transition-all hover:-translate-y-2`}
             onClick={e => {
                 const target: any = e.target;
                 const rect = target.getBoundingClientRect();
@@ -40,7 +40,7 @@ export const ButtonYellow = ({ children, onClick, style, className }: { children
             ) : (
                 ''
             )}
-            <span className="content">{children}</span>
+            <span className="content flex flex-row justify-between items-evenly w-full"><span className={"mr-4"}>{children}</span> {useIcon}</span>
         </button>
     );
 };
