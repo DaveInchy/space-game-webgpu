@@ -1,14 +1,13 @@
 import "mods@css/main.css";
 import "mods@css/tw.css";
 import Camera from "mods@core/Camera";
+import Environment from "mods@core/Environment";
 import Icons from "mods@utils/jsx/VectorIcons";
 import Image from "next/image";
 import Lighting from "mods@core/Lighting";
 import Scene from "mods@core/Scene";
 import THREE, { DoubleSide, Material, Mesh, MeshPhongMaterial, MeshStandardMaterial, MeshToonMaterial, NormalBufferAttributes, Vector2, Vector3 } from "three";
-import TestEnvironment from "mods@components/scenes/TestEnvironment";
-import Window3D from "mods@components/scenes/Window3D";
-import { CubeCamera, Environment, EnvironmentMap, FirstPersonControls, FlyControls, Octahedron, OrbitControls, PerspectiveCamera, Stars, useCubeTexture } from "@react-three/drei";
+import Window3D from "mods@core/Window3D";
 import { useFrame } from "@react-three/fiber";
 import { extend } from "@react-three/fiber";
 import { MeshCollider, RapierRigidBody, RigidBody } from "@react-three/rapier";
@@ -40,7 +39,7 @@ export default function GameController({ children, className, style }: { childre
 
     const SceneJSX: Array<[String, () => JSX.Element]> = [
         ["splash", () => (<>
-            <div className={"w-full min-h-[100vh] flex flex-col justify-center items-center"}>
+            <div className={"w-full min-h-[100vh] flex flex-col justify-center items-center bg-stone-900"}>
                 <div className={"list-none text-center"}>
                     <Image alt={"splashvector"} src={"/ThreeJS.svg"} width={320} height={320} className={"h-auto mx-auto my-0 mb-5"} />
                     <h1 className={"text-4xl font-black"} style={roboto.style}>{title}</h1>
@@ -54,7 +53,7 @@ export default function GameController({ children, className, style }: { childre
             </div>
         </>)],
         ["menu_assets", () => (<>
-            <div className={"w-full min-h-[100vh] flex flex-col justify-center items-center"}>
+            <div className={"w-full min-h-[100vh] flex flex-col justify-center items-center bg-stone-900"}>
                 <div className={"list-none text-center"}>
                     <h1 className={"text-4xl font-black"} style={roboto.style}>Menu</h1>
                 </div>
@@ -68,7 +67,7 @@ export default function GameController({ children, className, style }: { childre
                 </div>
             </div>
         </>)],
-        ["test_env", () => (<TestEnvironment />)],
+        ["test_env", () => (<Environment />)],
     ];
 
     const getScene = (key: string) => {

@@ -13,9 +13,10 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <title>ThreeJS Studio</title>
+        <link type="application/x-icon" href={"/ThreeJS.svg"} />
       </head>
       <body>
-        <div id="app" style={{...font.style, }} className={"bg-stone-900"}>
+        <div id="app" style={{...font.style, }} className={""}>
           {children}
         </div>
       </body>

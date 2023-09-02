@@ -13,9 +13,9 @@ export default function Component({
 }): JSX.Element {
 
     const PhysicsConfig: PhysicsProps = ({
-        "gravity": [0, 10, 0],
+        "gravity": [0, 0, -9.8],
         "debug": true,
-        "colliders": "ball",
+        "colliders": "trimesh",
         "children": children,
     })
 

@@ -1,6 +1,6 @@
 import React, { Suspense, useEffect, useLayoutEffect, useRef, useState } from "react";
-import { Canvas } from "@react-three/fiber";
-import { Physics } from "@react-three/rapier";
+import { Canvas, useFrame } from "@react-three/fiber";
+import { Physics, PhysicsProps, RapierContext, useRapier } from "@react-three/rapier";
 
 export default function Scene({
     children,
@@ -12,11 +12,19 @@ export default function Scene({
     usePhysics?: true | false,
 }): JSX.Element {
 
-    const PhysicsConfig = ({
-        x: 0,
-        y: 1,
-        z: 0,
+    const PhysicsConfig: PhysicsProps = ({
+        "gravity": [0, 10, 0],
+        "debug": true,
+        "colliders": "ball",
+        "children": children,
     })
+
+    const physicsInterface: RapierContext = useRapier();
+
+    useFrame((_state, delta, frame) => {
+        physicsInterface.step(delta);
+        physicsInterface.world.step();
+    }, 1);
 
     return (<>
         <Suspense fallback={<>Loading</>}>

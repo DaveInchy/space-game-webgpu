@@ -1,6 +1,6 @@
 {
-  "name": "space-game-webgpu",
-  "version": "27.08.23-1",
+  "name": "threejs-studio",
+  "version": "23.09.02-b1",
   "private": true,
   "scripts": {
     "dev": "next dev",

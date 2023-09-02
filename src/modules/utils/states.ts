@@ -6,6 +6,9 @@ const defaultStateProps = ({
     gameHasStarted: false,
     gameHasEnded: false,
     window3dSize: [1920, 1080],
+    player: ({
+        position: [0, 0, 0],
+    })
 });
 
 export const useGameStore = create((set: CallableFunction) => ({

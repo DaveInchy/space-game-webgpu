@@ -16,10 +16,10 @@ export default function Camera({
 
   return (<>
       <orthographicCamera ref={cameraRef}
-        args={[0, window.innerWidth / 100 * 80, 0, window.innerHeight / 100 * 80, 0, 10000]} />
+          args={[0, window.innerWidth / 100 * 80, 0, window.innerHeight / 100 * 80, 0, 10000]} />
 
       {/* camera controller */}
-      <OrbitControls
+      <OrbitControls ref={currentControls}
           camera={cameraRef.current}
           enableZoom={true}
           enablePan={true}
@@ -28,9 +28,5 @@ export default function Camera({
           zoomSpeed={5}
           rotateSpeed={1.5}
           panSpeed={5} />
-      {/* <FlyControls ref={currentControls}
-          args={cameraRef.current}
-          movementSpeed={1}
-          rollSpeed={1} /> */}
   </>)
 }
